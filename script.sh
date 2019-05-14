@@ -19,20 +19,25 @@ sed 's/;/,/g' estaciones_5.csv > estaciones_6.csv
 sed -r 's/([0-9]*)\/([0-9]{2})\/([0-9]{2})/\1-\2-\3/g' estaciones_6.csv > estaciones_7.csv
 sed 's/\([0-9]*\)-\([0-9][0-9]\)-\([0-9]*\),\([0-9]*\),/20\3-\2-\1,20\4,/g' estaciones_7.csv > estaciones_8.csv
 
+head estaciones_8.csv
+
 echo '-------------------------------------------'
 echo '•	Calculo de la velocidad promedio por Año'
 echo '-------------------------------------------'
 csvsql -v --query 'select ESTACION,ANIO,round(avg(cast(VEL as float)),2) as PROMEDIO from estaciones_8 GROUP BY ESTACION,ANIO' estaciones_8.csv > velocidad-por-anio.csv
+head velocidad-por-anio.csv
 
 echo '-------------------------------------------'
 echo '•	Calculo de la velocidad promedio por Mes'
 echo '-------------------------------------------'
 csvsql -v --query 'select ESTACION,MES,round(avg(cast(VEL as float)),2) as PROMEDIO from estaciones_8 GROUP BY ESTACION,MES' estaciones_8.csv > velocidad-por-mes.csv
+head velocidad-por-mes.csv
 
 echo '--------------------------------------------'
 echo '•	Calculo de la velocidad promedio por Hora'
 echo '--------------------------------------------'
 csvsql -v --query 'select ESTACION,HORA,round(avg(cast(VEL as float)),2) as PROMEDIO from estaciones_8 GROUP BY ESTACION,HORA' estaciones_8.csv > velocidad-por-hora.csv
+head velocidad-por-hora.csv
 
 echo '-----------------------------------------'
 echo '•	Borrado de temporales'
